@@ -37,7 +37,9 @@ NodoResumen::~NodoResumen(){
 int NodoResumen::getSize(){
     return size;
 }
-
+void NodoResumen::setSize(int size){
+    this->size = size;
+}
 int NodoResumen::getB(){
     return b;
 }

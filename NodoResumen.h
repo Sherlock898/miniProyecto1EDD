@@ -18,6 +18,7 @@ public:
     NodoResumen(Nodo* arregloLeft, Nodo* arregloRight);
     ~NodoResumen();    
     void setFather(NodoResumen* NodoResumen);
+    void setSize()
     int getSize();
     int getB();
 };
