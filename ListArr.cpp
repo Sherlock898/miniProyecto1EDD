@@ -68,6 +68,10 @@ void ListArr::insert_right(int v){ //Inserta un nuevo valor v a la derecha del L
 void ListArr::insert(int v, int i){ //Inserta un nuevo valor v en el índice i del ListArr.
 
 } 
+int ListArr::delete_left(){ //Elimina y retorna el elemento que está a la izquierda del ListArr
+}
+int ListArr::delete_right(){ //Elimina y retorna el elemento que está a la derecha del ListArr.
+}
 void ListArr:: print(){ //Imprime por pantalla todos los valores almacenados en el ListArr.
     Nodo* nodo = head;
     while(nodo != nullptr){

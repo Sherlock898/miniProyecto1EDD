@@ -15,7 +15,8 @@ public:
     virtual void insert(int v, int i)=0; //Inserta un nuevo valor v en el índice i del ListArr.
     virtual void print()=0; //Imprime por pantalla todos los valores almacenados en el ListArr.
     virtual bool find(int v)=0; //Busca en el ListArr si el valor v se encuentra almacenado.
-
+    virtual int delete_left()=0; //Elimina y retorna el elemento que está a la izquierda del ListArr
+    virtual int delete_right()=0; // Elimina y retorna el elemento que está a la derecha del ListArr.
 };
 
 

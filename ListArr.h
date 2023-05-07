@@ -23,7 +23,8 @@ private:
     void insert(int v, int i); //Inserta un nuevo valor v en el índice i del ListArr.
     void print(); //Imprime por pantalla todos los valores almacenados en el ListArr.
     bool find(int v); //Busca en el ListArr si el valor v se encuentra almacenado.
-
+    int delete_left(); //Elimina y retorna el elemento que está a la izquierda del ListArr
+    int delete_right(); //Elimina y retorna el elemento que está a la derecha del ListArr.
 };
 
 
