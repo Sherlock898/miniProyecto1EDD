@@ -73,7 +73,7 @@ int ListArr::delete_left(){ //Elimina y retorna el elemento que está a la izqui
 int ListArr::delete_right(){ //Elimina y retorna el elemento que está a la derecha del ListArr.
 }
 void ListArr:: print(){ //Imprime por pantalla todos los valores almacenados en el ListArr.
-    Nodo* nodo = head;
+    Nodo* nodo = head; //comienza printeando desde el 1er arreglo y avanza hasta llegar a nullptr
     while(nodo != nullptr){
         for(int i = 0; i < nodo->getSize(); i++){
             cout << nodo->at(i) << " ";

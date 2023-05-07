@@ -1,6 +1,6 @@
 #include "NodoResumen.h"
 #include "Nodo.h"
-
+//Constructor para NodosResumen superiores
 NodoResumen::NodoResumen(NodoResumen* left, NodoResumen* right){
     this->father = nullptr;
     this->b = left->getB();
@@ -15,7 +15,7 @@ NodoResumen::NodoResumen(NodoResumen* left, NodoResumen* right){
     this->arregloLeft = nullptr;
     this->arregloRight = nullptr;
 }
-
+//Constructor para NodosResumen inferiores
 NodoResumen::NodoResumen(Nodo* arregloLeft, Nodo* arregloRight){
     this->father = nullptr;
     this->b = arregloLeft->getB();

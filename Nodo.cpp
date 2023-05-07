@@ -1,6 +1,6 @@
 #include "Nodo.h"
 
-//Constructor nodo con arreglo
+//Nodo con arreglo
 Nodo::Nodo(int b, Nodo* next){
     this->b = b;
     arr = new int[b];
