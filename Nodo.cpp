@@ -1,11 +1,12 @@
-#include "Nodo.h"
+#include "NodoResumen.h"
 
 //Constructor nodo con arreglo
-Nodo::Nodo(int b, Nodo* next){
+Nodo::Nodo(int b, Nodo* next, Nodo* previus){
     this->b = b;
     arr = new int[b];
-    size = 0 ;
+    this->size = 0;
     this->next = next;
+    this->previus = previus;
 }
 
 Nodo::~Nodo(){
@@ -33,14 +34,16 @@ void Nodo::insert(int data, int i){
     size++;
 }
 
-void Nodo::remove(int i){
+int Nodo::remove(int i){
     if(i > getSize() || i < 0){
         throw "IndexOutOfBounds";
     }
+    int data = arr[i];
     for(int j = i; j < getSize(); j++){
         arr[j] = arr[j + 1];
     }
     size--;
+    return data;
 }
 
 int Nodo::getSize(){
@@ -55,8 +58,20 @@ Nodo* Nodo::getNext(){
     return this->next;
 }
 
+Nodo* Nodo::getPrevius(){
+    return this->previus;
+}
+
 void Nodo::setFather(NodoResumen* father){
     this->father = father;
+}
+
+void Nodo::setNext(Nodo* next){
+    this->next = next;
+}
+
+void Nodo::setPrevius(Nodo* previus){
+    this->previus = previus;
 }
 
 NodoResumen* Nodo::getFather(){

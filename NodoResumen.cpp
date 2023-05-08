@@ -1,9 +1,9 @@
-#include "NodoResumen.h"
+
 #include "Nodo.h"
 
 NodoResumen::NodoResumen(NodoResumen* left, NodoResumen* right){
     this->father = nullptr;
-    this->b = left->getB();
+    this->b = left->getB()*2;
     this->size = left->getSize();
     left->setFather(this);
     if(right != nullptr){
@@ -12,18 +12,18 @@ NodoResumen::NodoResumen(NodoResumen* left, NodoResumen* right){
     }
     this->left = left;
     this->right = right;
-    this->arregloLeft = nullptr;
-    this->arregloRight = nullptr;
+    this->arrayLeft = nullptr;
+    this->arrayRight = nullptr;
 }
 
-NodoResumen::NodoResumen(Nodo* arregloLeft, Nodo* arregloRight){
+NodoResumen::NodoResumen(Nodo* arrayLeft, Nodo* arrayRight){
     this->father = nullptr;
-    this->b = arregloLeft->getB();
-    this->size = arregloLeft->getSize();
-    arregloLeft->setFather(this);
-    if(arregloLeft != nullptr){
-        this->size += arregloRight->getSize();
-        arregloRight->setFather(this);
+    this->b = arrayLeft->getB()*2;
+    this->size = arrayLeft->getSize();
+    arrayLeft->setFather(this);
+    if(arrayRight != nullptr){
+        this->size += arrayRight->getSize();
+        arrayRight->setFather(this);
     }
     this->left = nullptr;
     this->right = nullptr;
@@ -47,3 +47,24 @@ int NodoResumen::getB(){
 void NodoResumen::setFather(NodoResumen* father){
     this->father = father;
 }
+
+NodoResumen* NodoResumen::getFather(){
+    return this->father;
+}
+
+NodoResumen* NodoResumen::getLeft(){
+    return this->left;
+}
+
+NodoResumen* NodoResumen::getRight(){
+    return this->right;
+}
+
+Nodo* NodoResumen::getArrayLeft(){
+    return this->arrayLeft;
+}   
+
+Nodo* NodoResumen::getArrayRight(){
+    return this->arrayRight;
+}
+

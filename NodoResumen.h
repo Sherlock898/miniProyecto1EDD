@@ -3,6 +3,7 @@
 
 #include "Nodo.h"
 
+class Nodo;
 class NodoResumen
 {
 private:
@@ -11,16 +12,22 @@ private:
     NodoResumen* left;
     NodoResumen* right;
     NodoResumen* father;
-    Nodo* arregloLeft;
-    Nodo* arregloRight;
+    Nodo* arrayLeft;
+    Nodo* arrayRight;
 public:     
     NodoResumen(NodoResumen* left, NodoResumen* right);
-    NodoResumen(Nodo* arregloLeft, Nodo* arregloRight);
+    NodoResumen(Nodo* arrayLeft, Nodo* arrayRight);
     ~NodoResumen();    
     void setFather(NodoResumen* NodoResumen);
-    void setSize()
+    void setSize(int size);
     int getSize();
     int getB();
+    NodoResumen* getFather();
+    NodoResumen* getLeft();
+    NodoResumen* getRight();
+    Nodo* getArrayLeft();
+    Nodo* getArrayRight();
 };
+
 
 #endif // NODORESUMEN_H

@@ -3,6 +3,7 @@
 
 #include "NodoResumen.h"
 
+class NodoResumen;
 class Nodo
 {
 private:
@@ -11,17 +12,21 @@ private:
     int size;                           //cantidad de datos dentro del arreglo
     NodoResumen* father;
     Nodo* next;
+    Nodo* previus;
     
 public:
-    Nodo(int b, Nodo* next);
+    Nodo(int b, Nodo* next, Nodo* previus);
     ~Nodo();
     void insert(int data, int i);
-    void remove(int i);
+    int remove(int i);
     int at(int i);
     int getSize();
     int getB();
     Nodo* getNext();
+    Nodo* getPrevius();
     void setFather(NodoResumen* father);
+    void setNext(Nodo* next);
+    void setPrevius(Nodo* previus);
     NodoResumen* getFather();
 };
 
