@@ -1,6 +1,6 @@
 
 #include "Nodo.h"
-
+//Constructor para NodosResumen superiores
 NodoResumen::NodoResumen(NodoResumen* left, NodoResumen* right){
     this->father = nullptr;
     this->b = left->getB()*2;
