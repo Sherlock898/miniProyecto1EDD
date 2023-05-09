@@ -12,22 +12,21 @@ private:
     int size;                           //cantidad de datos dentro del arreglo
     NodoResumen* father;
     Nodo* next;
-    Nodo* previus;
     
 public:
-    Nodo(int b, Nodo* next, Nodo* previus);
+    Nodo(int b, Nodo* next);
     ~Nodo();
     void insert(int data, int i);
     int remove(int i);
+    void replace(int v, int i);
     int at(int i);
     int getSize();
     int getB();
     Nodo* getNext();
-    Nodo* getPrevius();
     void setFather(NodoResumen* father);
     void setNext(Nodo* next);
-    void setPrevius(Nodo* previus);
     NodoResumen* getFather();
+    size_t size_this();
 };
 
 #endif // NODO_H

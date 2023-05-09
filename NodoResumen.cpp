@@ -1,13 +1,13 @@
-
 #include "Nodo.h"
 //Constructor para NodosResumen superiores
 NodoResumen::NodoResumen(NodoResumen* left, NodoResumen* right){
     this->father = nullptr;
-    this->b = left->getB()*2;
+    this->b = left->getB();
     this->size = left->getSize();
     left->setFather(this);
     if(right != nullptr){
         this->size += right->getSize();
+        this->b += right->getB();
         right->setFather(this);
     }
     this->left = left;
@@ -18,10 +18,13 @@ NodoResumen::NodoResumen(NodoResumen* left, NodoResumen* right){
 
 NodoResumen::NodoResumen(Nodo* arrayLeft, Nodo* arrayRight){
     this->father = nullptr;
-    this->b = arrayLeft->getB()*2;
+    this->b = arrayLeft->getB();
     this->size = arrayLeft->getSize();
-    arrayLeft->setFather(this);
+    this->arrayLeft = arrayLeft;
+    this->arrayLeft->setFather(this);
+    this->arrayRight = arrayRight;
     if(arrayRight != nullptr){
+        this->b += arrayRight->getB();
         this->size += arrayRight->getSize();
         arrayRight->setFather(this);
     }
@@ -68,3 +71,11 @@ Nodo* NodoResumen::getArrayRight(){
     return this->arrayRight;
 }
 
+size_t NodoResumen::size_this(){
+    size_t resultado = sizeof(this);
+    if(this->getArrayLeft() != nullptr) resultado += this->getArrayLeft()->size_this();
+    if(this->getArrayRight() != nullptr) resultado += this->getArrayRight()->size_this();
+    if(this->getLeft() != nullptr) resultado += this->getLeft()->size_this();
+    if(this->getRight() != nullptr) resultado += this->getRight()->size_this();
+    return resultado;
+}

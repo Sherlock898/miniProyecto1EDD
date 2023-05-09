@@ -1,6 +1,7 @@
 #ifndef NODORESUMEN_H
 #define NODORESUMEN_H
 
+#include <cstddef>
 #include "Nodo.h"
 
 class Nodo;
@@ -27,6 +28,7 @@ public:
     NodoResumen* getRight();
     Nodo* getArrayLeft();
     Nodo* getArrayRight();
+    size_t size_this();
 };
 
 

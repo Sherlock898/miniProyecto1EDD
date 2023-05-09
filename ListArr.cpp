@@ -8,7 +8,7 @@ using namespace std;
 ListArr::ListArr(int b){
     this->root = nullptr;
     this->b = b;
-    this->head = new Nodo(b, nullptr, nullptr);
+    this->head = new Nodo(b, nullptr);
     this->tail = head;
     crearArbol();
 }
@@ -23,6 +23,7 @@ ListArr::~ListArr(){
     }
 }
 
+//LISTO
 void ListArr::crearArbol(){
     if(root != nullptr) delete(root);
     queue<NodoResumen*> cola;
@@ -56,15 +57,12 @@ void ListArr::crearArbol(){
     this->root = cola.front();
     cola.pop();
 }
-
 int ListArr::size(){ //Retorna la cantidad de elementos almacenados en el ListArr
     return root->getSize();
 } 
-
 void ListArr::insert_left(int v){ //Inserta un nuevo valor v a la izquierda del ListArr. Equivalentemente, inserta el valor v en el índice 0
     if(head->getSize() == b){
-        head->setNext(new Nodo(b, head->getNext(), head));
-        head->getNext()->insert(head->at(b - 1), 0);
+        head = new Nodo(b, head);
         head->insert(v, 0);
         crearArbol();
         return;
@@ -73,61 +71,66 @@ void ListArr::insert_left(int v){ //Inserta un nuevo valor v a la izquierda del 
     head->insert(v, 0);
     actualizarNodos(head, 1);
 } 
-
 void ListArr::insert_right(int v){ //Inserta un nuevo valor v a la derecha del ListArr. Equivalentemente, inserta el valor v en el índice size()-1
-    if(tail->getSize() == b){
-        tail = new Nodo(b, nullptr, tail);
-        tail->insert(v, 0);
-        crearArbol();
-        return;
-    }
-    tail->insert(v, tail->getSize() - 1);
-    actualizarNodos(tail, 1);
+    insert(v, root->getSize());
 } 
+//LISTO
+
 
 void ListArr::insert(int v, int i){ //Inserta un nuevo valor v en el índice i del ListArr.
     if(i > this->size()){
         throw "IndexOutOfBoundsException";
     }
 
+    if(i == 0){
+        insert_left(v);
+        return;
+    }
+
     NodoResumen* nodoActual = root;
     while(nodoActual->getArrayLeft() == nullptr){
-        if(nodoActual->getLeft()->getSize() > i){
+        if(nodoActual->getLeft()->getSize() >= i){
             nodoActual = nodoActual->getLeft();
         }
         else{
-            nodoActual = nodoActual->getRight();
             i = i - nodoActual->getLeft()->getSize();
+            nodoActual = nodoActual->getRight();
+            
         }
     }
 
     Nodo* target;
 
-    if(nodoActual->getArrayLeft() == nullptr){
-        return;
-    }
-    else{
-        int xd = nodoActual->getArrayLeft()->getSize();
-    }
-
-    if(nodoActual->getArrayLeft()->getSize() > i){
+    if(nodoActual->getArrayLeft()->getSize() >= i){
         target = nodoActual->getArrayLeft();
     }
     else{
-        target = nodoActual->getArrayRight();
+        if(nodoActual->getArrayRight() == nullptr){
+            nodoActual->getArrayLeft()->setNext(new Nodo(b, nullptr));
+            target = nodoActual->getArrayLeft()->getNext();
+            tail = target;
+            target->getNext()->insert(target->at(b - 1), 0);
+            target->replace(v, i);
+            crearArbol();    
+            return;    
+        }
         i = i - nodoActual->getArrayLeft()->getSize();
+        target = nodoActual->getArrayRight(); 
     }  
 
     if(target->getSize() == b){
-        target->setNext(new Nodo(b, target->getNext(), target->getPrevius()));
-        if(target->getNext() != nullptr){
-            target->getNext()->setPrevius(target);
-        }
-        else{
+        target->setNext(new Nodo(b, target->getNext()));
+        if(target->getNext()->getNext() == nullptr){
             tail = target;
         }
-        target->getNext()->insert(target->at(b - 1), 0);
-        target->insert(v, i);
+        if(i == b){
+            target->getNext()->insert(v, 0);
+        }
+        else{
+            target->getNext()->insert(target->at(b-1), 0);
+            target->remove(b - 1);
+            target->insert(v, i);
+        }
         crearArbol();
         return;
     }
@@ -145,7 +148,6 @@ int ListArr::delete_left(){ //Elimina y retorna el elemento que está a la izqui
     if(head->getSize() == 0 && head->getNext() != nullptr){
         Nodo* aux = head;
         head = head->getNext();
-        head->setPrevius(nullptr);
         delete(aux);
         crearArbol();
     }
@@ -159,16 +161,43 @@ int ListArr::delete_right(){ //Elimina y retorna el elemento que está a la dere
     if(root->getSize() <= 0){
         throw "EmptyListException";
     }
-    int data = tail->remove(tail->getSize() - 1);
-    if(tail->getSize() == 0 && tail->getPrevius() != nullptr){
-        Nodo* aux = tail;
-        tail = tail->getPrevius();
-        tail->setNext(nullptr);
-        delete(aux);
-        crearArbol();
+
+    int i = root->getSize()  - 1;
+
+    NodoResumen* nodoActual = root;
+    while(nodoActual->getArrayLeft() == nullptr){
+        if(nodoActual->getLeft()->getSize() > i){
+            nodoActual = nodoActual->getLeft();
+        }
+        else{
+            i = i - nodoActual->getLeft()->getSize();
+            nodoActual = nodoActual->getRight();
+            
+        }
+    }
+
+    Nodo* target;
+
+    if(nodoActual->getArrayLeft()->getSize() > i){
+        target = nodoActual->getArrayLeft();
     }
     else{
-        actualizarNodos(tail, -1);
+        i = i - nodoActual->getArrayLeft()->getSize();
+        target = nodoActual->getArrayRight(); 
+    }  
+    int data = target->remove(i);
+    actualizarNodos(target, -1);
+    if(target->getSize() == 0){
+        if(head == target){
+            return data;
+        }
+        Nodo* anterior = head;
+        while(anterior->getNext() != target){
+            anterior = anterior->getNext();
+        }
+        anterior->setNext(target->getNext());
+        delete(target);
+        crearArbol();
     }
     return data;
 }
@@ -202,4 +231,8 @@ void ListArr::actualizarNodos(Nodo* nodo, int dx){
         nodoResumen->setSize(nodoResumen->getSize() + dx);
         nodoResumen = nodoResumen->getFather();
     }   
+}
+
+size_t ListArr::size_this(){
+    return sizeof(this) + this->root->size_this();
 }
