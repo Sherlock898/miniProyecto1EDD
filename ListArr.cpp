@@ -5,7 +5,8 @@
 
 using namespace std;
 
-ListArr::ListArr(int b){
+template <class T>
+ListArr<T>::ListArr(T b){
     this->root = nullptr;
     this->b = b;
     this->head = new Nodo(b, nullptr);
@@ -13,7 +14,8 @@ ListArr::ListArr(int b){
     crearArbol();
 }
 
-ListArr::~ListArr(){
+template <class T>
+ListArr<T>::~ListArr(){
     delete(root);
     while (head != nullptr)
     {
@@ -24,7 +26,8 @@ ListArr::~ListArr(){
 }
 
 //LISTO
-void ListArr::crearArbol(){
+template <class T>
+void ListArr<T>::crearArbol(){
     if(root != nullptr) delete(root);
     queue<NodoResumen*> cola;
     Nodo* nodoSos = head;
@@ -55,12 +58,16 @@ void ListArr::crearArbol(){
     }
     
     this->root = cola.front();
-    cola.pop();
+    this->cola.pop();
 }
-int ListArr::size(){ //Retorna la cantidad de elementos almacenados en el ListArr
+
+template <class T>
+int ListArr<T>::size(){ //Retorna la cantidad de elementos almacenados en el ListArr
     return root->getSize();
 } 
-void ListArr::insert_left(int v){ //Inserta un nuevo valor v a la izquierda del ListArr. Equivalentemente, inserta el valor v en el índice 0
+
+template <class T>
+void ListArr<T>::insert_left(T v){ //Inserta un nuevo valor v a la izquierda del ListArr. Equivalentemente, inserta el valor v en el índice 0
     if(head->getSize() == b){
         head = new Nodo(b, head);
         head->insert(v, 0);
@@ -71,13 +78,15 @@ void ListArr::insert_left(int v){ //Inserta un nuevo valor v a la izquierda del 
     head->insert(v, 0);
     actualizarNodos(head, 1);
 } 
-void ListArr::insert_right(int v){ //Inserta un nuevo valor v a la derecha del ListArr. Equivalentemente, inserta el valor v en el índice size()-1
+
+template <class T>
+void ListArr<T>::insert_right(T v){ //Inserta un nuevo valor v a la derecha del ListArr. Equivalentemente, inserta el valor v en el índice size()-1
     insert(v, root->getSize());
 } 
 //LISTO
 
-
-void ListArr::insert(int v, int i){ //Inserta un nuevo valor v en el índice i del ListArr.
+template <class T>
+void ListArr<T>::insert(T v, T i){ //Inserta un nuevo valor v en el índice i del ListArr.
     if(i > this->size()){
         throw "IndexOutOfBoundsException";
     }
@@ -139,12 +148,13 @@ void ListArr::insert(int v, int i){ //Inserta un nuevo valor v en el índice i d
     actualizarNodos(target, 1);
 } 
 
-int ListArr::delete_left(){ //Elimina y retorna el elemento que está a la izquierda del ListArr.
+template <class T>
+T ListArr<T>::delete_left(){ //Elimina y retorna el elemento que está a la izquierda del ListArr.
     if(root->getSize() <= 0){
         throw "EmptyListException";
     }
 
-    int data = head->remove(0);
+    T data = head->remove(0);
     if(head->getSize() == 0 && head->getNext() != nullptr){
         Nodo* aux = head;
         head = head->getNext();
@@ -157,12 +167,13 @@ int ListArr::delete_left(){ //Elimina y retorna el elemento que está a la izqui
     return data;
 } 
 
-int ListArr::delete_right(){ //Elimina y retorna el elemento que está a la derecha del ListArr.
+template <class T>
+T ListArr<T>::delete_right(){ //Elimina y retorna el elemento que está a la derecha del ListArr.
     if(root->getSize() <= 0){
         throw "EmptyListException";
     }
 
-    int i = root->getSize()  - 1;
+    T i = root->getSize()  - 1;
 
     NodoResumen* nodoActual = root;
     while(nodoActual->getArrayLeft() == nullptr){
@@ -185,7 +196,7 @@ int ListArr::delete_right(){ //Elimina y retorna el elemento que está a la dere
         i = i - nodoActual->getArrayLeft()->getSize();
         target = nodoActual->getArrayRight(); 
     }  
-    int data = target->remove(i);
+    T data = target->remove(i);
     actualizarNodos(target, -1);
     if(target->getSize() == 0){
         if(head == target){
@@ -202,19 +213,22 @@ int ListArr::delete_right(){ //Elimina y retorna el elemento que está a la dere
     return data;
 }
 
-void ListArr:: print(){ //Imprime por pantalla todos los valores almacenados en el ListArr.
-    Nodo* nodo = head; //comienza printeando desde el 1er arreglo y avanza hasta llegar a nullptr
+template <class T>
+void ListArr<T>:: print(){ //Imprime por pantalla todos los valores almacenados en el ListArr.
+    Nodo* nodo = head; //comienza prTeando desde el 1er arreglo y avanza hasta llegar a nullptr
     while(nodo != nullptr){
-        for(int i = 0; i < nodo->getSize(); i++){
+        for(T i = 0; i < nodo->getSize(); i++){
             cout << nodo->at(i) << " ";
         }
         nodo = nodo->getNext();
     }
 } 
-bool ListArr::find(int v){ //Busca en el ListArr si el valor v se encuentra almacenado.
+
+template <class T>
+bool ListArr<T>::find(T v){ //Busca en el ListArr si el valor v se encuentra almacenado.
     Nodo* nodo = head;
     while(nodo != nullptr){
-        for(int i = 0; i < nodo->getSize(); i++){
+        for(T i = 0; i < nodo->getSize(); i++){
             if(nodo->at(i) == v){
                 return true;
             }
@@ -224,7 +238,8 @@ bool ListArr::find(int v){ //Busca en el ListArr si el valor v se encuentra alma
     return false;
 } 
 
-void ListArr::actualizarNodos(Nodo* nodo, int dx){
+template <class T>
+void ListArr<T>::actualizarNodos(Nodo* nodo, int dx){
     NodoResumen* nodoResumen = nodo->getFather();
     while (nodoResumen != nullptr)
     {
@@ -233,6 +248,7 @@ void ListArr::actualizarNodos(Nodo* nodo, int dx){
     }   
 }
 
-size_t ListArr::size_this(){
+template <class T>
+size_t ListArr<T>::size_this(){
     return sizeof(this) + this->root->size_this();
 }
